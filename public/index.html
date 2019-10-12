@@ -6,11 +6,8 @@
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0">
     <title>Buscador</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.min.css">
-    <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/js/materialize.min.js"></script>
     <link rel="stylesheet" href="ion.rangeSlider.css">
     <link rel="stylesheet" href="ion.rangeSlider.skinFlat.css">
-    <script src="ion.rangeSlider.min.js"></script>
     <link rel="stylesheet" href="app.css">
 </head>
 
@@ -94,11 +91,29 @@
         -->
         </div>
     </div>
-
+    <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=" crossorigin="anonymous"></script>
+    <script>
+        function addSelect() {
+            $.ajax({
+                url: '/select',
+                success: function(result) {
+                    result.ciudades.forEach(element => {
+                        $('#ciudad').append(`<option value="${element}">${element}</option>`);
+                    })
+                    result.tipos.forEach(element => {
+                        $('#tipo').append(`<option value="${element}">${element}</option>`);
+                    })
+                }
+            })
+        }
+        addSelect();
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/js/materialize.min.js"></script>
+    <script src="ion.rangeSlider.min.js"></script>
     <script src="app.js"></script>
     <script>
         $(document).ready(function() {
-            $('select').formSelect();
+            $('select').material_select();
         });
     </script>
 </body>

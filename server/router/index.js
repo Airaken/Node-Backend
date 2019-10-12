@@ -38,7 +38,7 @@ app.get('/ciudades', (req, res) => {
     })
 });
 
-app.get('/ciudad', (req, res) => {
+app.get('/select', (req, res) => {
     fs.readFile(url, (err, data) => {
         if (err) {
             return res.status(500).json({
@@ -48,13 +48,17 @@ app.get('/ciudad', (req, res) => {
         }
         let bienes = JSON.parse(data);
         let ciudades = [];
+        let tipos = [];
         bienes.forEach(element => {
             ciudades.push(element.Ciudad);
+            tipos.push(element.Tipo);
         });
         ciudades = [...new Set(ciudades)];
+        tipos = [...new Set(tipos)]
         return res.status(200).json({
             ok: true,
-            ciudades
+            ciudades,
+            tipos
         })
     })
 });
