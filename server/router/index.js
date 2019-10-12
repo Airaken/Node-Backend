@@ -30,12 +30,53 @@ app.get('/ciudades', (req, res) => {
             });
         }
         let bienes = JSON.parse(data);
-        bienes.filter()
         return res.status(200).json({
             ok: true,
             bienes
         });
 
+    })
+});
+
+app.get('/ciudad', (req, res) => {
+    fs.readFile(url, (err, data) => {
+        if (err) {
+            return res.status(500).json({
+                ok: false,
+                err
+            })
+        }
+        let bienes = JSON.parse(data);
+        let ciudades = [];
+        bienes.forEach(element => {
+            ciudades.push(element.Ciudad);
+        });
+        ciudades = [...new Set(ciudades)];
+        return res.status(200).json({
+            ok: true,
+            ciudades
+        })
+    })
+});
+
+app.get('/tipo', (req, res) => {
+    fs.readFile(url, (err, data) => {
+        if (err) {
+            return res.status(500).json({
+                ok: false,
+                err
+            })
+        }
+        let bienes = JSON.parse(data);
+        let tipos = [];
+        bienes.forEach(element => {
+            tipos.push(element.Tipo);
+        });
+        tipos = [...new Set(tipos)];
+        return res.status(200).json({
+            ok: true,
+            tipos
+        })
     })
 });
 

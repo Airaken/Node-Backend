@@ -19,15 +19,34 @@ function setSearch() {
         }
         $('#personalizada').toggleClass('invisible')
     })
+    addSelect();
 }
 
 setSearch()
+
+function addSelect() {
+    $.ajax({
+        url: '/ciudad',
+        success: function(result) {
+            result.ciudades.forEach(element => {
+                $('#ciudad').append(`<option value="${element}">${element}</option>`);
+            })
+        }
+    })
+    $.ajax({
+        url: '/tipo',
+        success: function(result) {
+            result.tipos.forEach(element => {
+                $('#tipo').append(`<option value="${element}">${element}</option>`);
+            })
+        }
+    })
+}
 
 $("#buscar").on('click', () => {
     $.ajax({
         url: "/todos",
         success: function(result) {
-            console.log(result);
             result.bienes.forEach(element => {
                 $('.lista').append(`<div class="card horizontal">
             <div class="card-image">
