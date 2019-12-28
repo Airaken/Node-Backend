@@ -25,23 +25,34 @@ setSearch()
 
 $("#buscar").on('click', () => {
     $("#rangoPrecio").val();
-
-    if (false) {
-
-    }
-    $.ajax({
-        url: "/todos",
-        success: function(result) {
-            if (result.ok) {
-                mostrarBienes(result);
-            } else {
-                alert(result.err);
+    let busqueda = $('#checkPersonalizada')
+    if (busqueda[0].checked) {
+        $.ajax({
+            url: "/buscar/" + $('#ciudad').val() + "&" + $('#tipo').val() + "&" + $('#rangoPrecio').val(),
+            success: function(result) {
+                if (result.ok) {
+                    mostrarBienes(result);
+                } else {
+                    alert(result.err);
+                }
             }
-        }
-    });
+        });
+    } else {
+        $.ajax({
+            url: "/todos",
+            success: function(result) {
+                if (result.ok) {
+                    mostrarBienes(result);
+                } else {
+                    alert(result.err);
+                }
+            }
+        });
+    }
 })
 
 function mostrarBienes(result) {
+    $('.lista').empty()
     result.bienes.forEach(element => {
         $('.lista').append(`<div class="card horizontal">
 <div class="card-image">

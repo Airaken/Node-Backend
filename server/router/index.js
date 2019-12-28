@@ -21,7 +21,11 @@ app.get('/todos', (req, res) => {
     })
 });
 
-app.get('/ciudades', (req, res) => {
+app.get('/buscar/:ciudad&:tipo&:precio', (req, res) => {
+    let ciudad = req.params.ciudad;
+    let tipo = req.params.tipo;
+    let precio = req.params.precio.split(';');
+    console.log(ciudad, tipo, precio);
     fs.readFile(url, (err, data) => {
         if (err) {
             return res.status(500).json({
@@ -30,6 +34,10 @@ app.get('/ciudades', (req, res) => {
             });
         }
         let bienes = JSON.parse(data);
+        bienes = bienes.filter(element => element.Ciudad == ciudad);
+        bienes = bienes.filter(element => element.Tipo == tipo);
+        bienes = bienes.filter(element => parseFloat(element.Precio.replace('$', '').replace(',', '')) >= parseFloat(precio[0]));
+        bienes = bienes.filter(element => parseFloat(element.Precio.replace('$', '').replace(',', '')) <= parseFloat(precio[1]));
         return res.status(200).json({
             ok: true,
             bienes
@@ -58,27 +66,6 @@ app.get('/select', (req, res) => {
         return res.status(200).json({
             ok: true,
             ciudades,
-            tipos
-        })
-    })
-});
-
-app.get('/tipo', (req, res) => {
-    fs.readFile(url, (err, data) => {
-        if (err) {
-            return res.status(500).json({
-                ok: false,
-                err
-            })
-        }
-        let bienes = JSON.parse(data);
-        let tipos = [];
-        bienes.forEach(element => {
-            tipos.push(element.Tipo);
-        });
-        tipos = [...new Set(tipos)];
-        return res.status(200).json({
-            ok: true,
             tipos
         })
     })
